@@ -1,7 +1,7 @@
 {
   "name": "pokestore_backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Es la parte del back de la pokestore, api, base de datos, controladores",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -9,7 +9,7 @@
     "dev": "npm run start"
   },
   "keywords": [],
-  "author": "",
+  "author": "Alvaro y Adrian",
   "license": "ISC",
   "dependencies": {
     "axios": "1.6.8",
