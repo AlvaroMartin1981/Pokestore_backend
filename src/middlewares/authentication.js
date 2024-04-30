@@ -1,15 +1,30 @@
-const app = require('../config/firebase');
 const { getAuth, onAuthStateChanged } = require('firebase/auth');
-const auth = getAuth(app)
+const app = require('../config/firebase');
 
-function checkSession(req,res,next) {
+// Inicializar la autenticación de Firebase
+const auth = getAuth(app);
+
+// Middleware para verificar si el usuario es administrador
+const isAdmin = (req, res, next) => {
+    // Verifica si hay un usuario autenticado y si su rol es administrador
+    if (req.user && req.user.role === 'admin') {
+        next(); // Continúa con la siguiente función de middleware
+    } else {
+        res.status(403).json({ message: 'Acceso denegado. Debes ser administrador.' });
+    }
+};
+
+// Middleware de autenticación básico
+const authentication = (req, res, next) => {
+    // Verificar si hay un usuario autenticado
     onAuthStateChanged(auth, (user) => {
-        if(user) {
-            next();
+        if (user) {
+            req.user = user; // Almacenar el usuario en el objeto de solicitud
+            next(); // Continuar con la siguiente función de middleware
         } else {
-            res.redirect('/login/');
+            res.status(401).json({ message: 'Acceso no autorizado. Debes iniciar sesión.' });
         }
-    })
-}
+    });
+};
 
-module.exports = checkSession;
+module.exports = { isAdmin, authentication };

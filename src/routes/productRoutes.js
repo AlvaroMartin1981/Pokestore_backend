@@ -1,18 +1,19 @@
 const express = require('express');
 const routerProduct= express.Router();
 const productController = require('../controllers/productController');
-const authentication = require('../middlewares/authentication');
+const { authentication, isAdmin } = require('../middlewares/authentication'); // Importa el middleware de autenticación
 
-routerProduct.get('/', productController.getAll);
-routerProduct.get('/:id', productController.getById);
-routerProduct.get('/nombre/:nombre', productController.getProductsByName);
+// Rutas protegidas solo para administradores
+routerProduct.put('/:id/editar', authentication, isAdmin, productController.edit);
+routerProduct.post('/crear', authentication, isAdmin, productController.create);
+routerProduct.delete('/:id', authentication, isAdmin, productController.delete);
 
-// Rutas protegidas con autenticación
-routerProduct.put('/:id/editar', authentication, productController.edit);
+// Rutas accesibles para todos los usuarios autenticados
+routerProduct.get('/', authentication, productController.getAll);
+routerProduct.get('/:id', authentication, productController.getById);
+routerProduct.get('/nombre/:nombre', authentication, productController.getProductsByName);
 routerProduct.put('/:id', authentication, productController.update);
-routerProduct.delete('/:id', authentication, productController.delete);
 routerProduct.post('/:id/comentario', authentication, productController.insertComment);
 routerProduct.post('/:id/like', authentication, productController.like);
-routerProduct.post('/crear', authentication, productController.create);
 
 module.exports = routerProduct;
