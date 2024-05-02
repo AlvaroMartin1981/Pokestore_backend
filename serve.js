@@ -4,7 +4,7 @@ const session = require('express-session')
 const app =express();
 const dbConnection=require('./src/config/db');
 const PORT = process.env.PORT || 8080;
-const cors=require ('cors')
+const cors = require('cors');
 const routerProduct= require ('./src/routes/productRoutes');
 const routerUser= require ('./src/routes/usersRoutes')
 const routerOrder =require ('./src/routes/orderRoutes')
@@ -27,7 +27,11 @@ app.use(session({
 );
 
 
-app.use(cors())
+app.use(cors({
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true
+}));
 //Middleware que usaremos para todas las rutas
 
 app.use('/productos',routerProduct); 
