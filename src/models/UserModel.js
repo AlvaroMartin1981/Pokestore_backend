@@ -5,17 +5,18 @@ const UserSchema = new mongoose.Schema(
     {
         name: { 
             type: String, 
-            required: [true, "Introduce tu nombre"],
+            required: true,
         },
         email:{
             type :String ,
-            match:  [/.+\@.+\..+/, 'Por favor introduzca un correo valido'],
+            match:  [/.+\@.+\..+/],
             unique: true,
-            required:[true, 'Introduce tu correo'],
+            required: true
+            
         },
         password: {
             type: String,
-            required: [true,'Introduce tu contraseña'],
+            required: true
         }, 
         role: {
             type: String,
@@ -28,9 +29,9 @@ const UserSchema = new mongoose.Schema(
     },
     {timestamps:true}
 );
-userSchema.statics.findAdmins = async function() {
+/*userSchema.statics.findAdmins = async function() {
     return this.find({ role: 'admin' });
-  };
+  };*/
 const User = mongoose.model("User", UserSchema);
 
 

@@ -1,12 +1,19 @@
 const express = require('express');
 const routerProduct= express.Router();
 const productController = require('../controllers/productController');
-const { authentication, isAdmin } = require('../middlewares/authentication'); // Importa el middleware de autenticación
+const authentication = require('../middlewares/authentication');
+
+
+
+routerProduct.get('/', productController.getAll);
+routerProduct.get('/:id', productController.getById);
+routerProduct.get('/nombre/:nombre', productController.getProductsByName);
+
 
 // Rutas protegidas solo para administradores
-routerProduct.put('/:id/editar', authentication, isAdmin, productController.edit);
-routerProduct.post('/crear', authentication, isAdmin, productController.create);
-routerProduct.delete('/:id', authentication, isAdmin, productController.delete);
+routerProduct.put('/:id/editar', authentication, productController.edit);
+routerProduct.post('/crear', authentication, productController.create);
+routerProduct.delete('/:id', authentication, productController.delete);
 
 // Rutas accesibles para todos los usuarios autenticados
 routerProduct.get('/', authentication, productController.getAll);
