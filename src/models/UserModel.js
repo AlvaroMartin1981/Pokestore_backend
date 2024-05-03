@@ -29,12 +29,8 @@ const UserSchema = new mongoose.Schema(
     },
     {timestamps:true}
 );
-/*userSchema.statics.findAdmins = async function() {
-    return this.find({ role: 'admin' });
-  };*/
+
 const User = mongoose.model("User", UserSchema);
-
-
 
 module.exports = User;
     

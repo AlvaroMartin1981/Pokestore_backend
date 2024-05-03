@@ -4,18 +4,15 @@ const session = require('express-session')
 const app =express();
 const dbConnection=require('./src/config/db');
 const PORT = process.env.PORT || 8080;
-const cors = require('cors');
+const cors=require ('cors')
 const routerProduct= require ('./src/routes/productRoutes');
 const routerUser= require ('./src/routes/usersRoutes')
 const routerOrder =require ('./src/routes/orderRoutes')
-
 const hashedSecret = require('./src/config/config')
-//const MongoStore = require('connect-mongo');
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-//Nos conectamos con la base de datos
 dbConnection();
 
 app.use(session({
@@ -26,21 +23,12 @@ app.use(session({
   })
 );
 
-
-app.use(cors({
-  origin: '*',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true
-}));
-//Middleware que usaremos para todas las rutas
+app.use(cors());
 
 app.use('/productos',routerProduct); 
 app.use('/user',routerUser);
-app.use('/pedidos',routerOrder)
-
-//levantamos el puerto
-
+app.use('/pedidos',routerOrder);
 
 app.listen(PORT, () => {
-    console.log(`Server started on http://localhost:${PORT}`);
+  console.log(`Server started on http://localhost:${PORT}`);
 })
